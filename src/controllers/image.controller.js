@@ -23,21 +23,6 @@ export const createImage = async (req, res) => {
     }
 }
 
-export const searchImage = async (req, res) => {
-    try {
-        const { name } = req.params;
-
-        const images = await Image.find({}).populate("folder");
-
-        const findImage = images.filter(image => image.name.toLowerCase().includes(name.toLowerCase()));
-
-        return res.status(200).json({ images: findImage });
-        
-    } catch (error) {
-        return res.status(500).json({ message: error.message });
-    }
-}
-
 
 export const getImage = async (req, res) => {
     try {

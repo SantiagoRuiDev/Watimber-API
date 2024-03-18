@@ -8,7 +8,6 @@ const router = Router();
 
 
 router.post('/:id', uploadImage('image'), userMiddlewares.isAuth, userMiddlewares.isWorkerOrAdmin, imageMiddlewares.createImage, imageController.createImage)
-router.get('/search/:name', userMiddlewares.isAuth, userMiddlewares.isWorkerOrAdmin, imageController.searchImage)
 router.get('/find/:id', userMiddlewares.isAuth, userMiddlewares.isWorkerOrAdmin, imageController.getImageById)
 router.get('/:id', userMiddlewares.isAuth, userMiddlewares.isWorkerOrAdmin, imageController.getImage)
 router.delete('/:id', userMiddlewares.isAuth, userMiddlewares.isWorkerOrAdmin, imageController.deleteImage)

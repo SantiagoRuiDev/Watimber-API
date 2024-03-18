@@ -18,6 +18,21 @@ export const createFolder = async (req, res) => {
     }
 }
 
+export const searchFolder = async (req, res) => {
+    try {
+        const { name } = req.params;
+
+        const findFolders = await Folder.find({});
+
+        const searchFolders = findFolders.filter(folder => folder.name.includes(name));
+
+        return res.status(200).json({folders: searchFolders});
+        
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
 export const deleteFolder = async (req, res) => {
     try {
         const { id } = req.params;

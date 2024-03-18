@@ -6,10 +6,6 @@ export const createImage = async (req, res, next) => {
   const { name } = req.body;
   const { id } = req.params;
 
-  if (!/^\d+$/.test(name) || name.length !== 6) {
-    return res.status(400).json({ message: "Invalid name" });
-  }
-
   // Check if folder exists
   const folderExist = await Folder.findOne({ _id: id });
 

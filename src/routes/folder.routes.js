@@ -7,6 +7,7 @@ const router = Router();
 
 
 router.post('/', userMiddlewares.isAuth, userMiddlewares.isWorkerOrAdmin, folderMiddlewares.createFolder, folderController.createFolder)
+router.get('/search/:name', userMiddlewares.isAuth, userMiddlewares.isWorkerOrAdmin, folderController.searchFolder)
 router.get('/', userMiddlewares.isAuth, userMiddlewares.isWorkerOrAdmin, folderController.getFolders)
 router.delete('/:id', userMiddlewares.isAuth, userMiddlewares.isAdmin, folderController.deleteFolder)
 
