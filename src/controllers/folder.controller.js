@@ -11,8 +11,28 @@ export const createFolder = async (req, res) => {
 
         await newFolder.save();
 
-        return res.status(201).json({message: "Folder created successfully"});
+        return res.status(201).json({message: "Order created successfully"});
 
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+
+export const searchSpecificFolder = async (req, res) => {
+    try {
+        const { name } = req.params;
+
+        const findFolders = await Folder.find({});
+
+        const searchFolders = findFolders.filter(folder => folder.name == name);
+
+        if(searchFolders[0]){
+            return res.status(200).json(searchFolders[0]);
+        }
+
+        return res.status(200).json(null);
+        
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
@@ -39,7 +59,7 @@ export const deleteFolder = async (req, res) => {
 
         await Folder.findByIdAndDelete(id);
 
-        return res.status(200).json({message: "Folder deleted successfully"});
+        return res.status(200).json({message: "Order deleted successfully"});
 
     } catch (error) {
         return res.status(500).json({ message: error.message });

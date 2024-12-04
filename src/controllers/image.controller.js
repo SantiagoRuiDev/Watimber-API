@@ -5,18 +5,22 @@ export const createImage = async (req, res) => {
     try {
         const { name } = req.body;
         const { id } = req.params;
-        const image = req.imageURL;
         // Create image
+        if(req.images_urls.length == 0){
+            throw new Error("Please upload valid images");
+        }
 
-        const newImage = new Image({
-            name: name,
-            url: image,
-            folder: id
-        })
+        for(const image of req.images_urls){
+            const newImage = new Image({
+                name: "watimber-image-" + (Math.random() * 999999),
+                url: image,
+                folder: id
+            })
+            await newImage.save();
+        }
 
-        await newImage.save();
 
-        return res.status(201).json({ message: "Image created" });
+        return res.status(201).json({ message: "Images has been uploaded succesfully" });
         
     } catch (error) {
         return res.status(500).json({ message: error.message });

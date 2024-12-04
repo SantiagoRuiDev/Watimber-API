@@ -10,13 +10,13 @@ export const createFolder = async (req, res, next) => {
         }
 
         if (!/^\d+$/.test(name) || name.length !== 6) {
-            return res.status(400).json({ message: "Invalid name" });
+            return res.status(400).json({ message: "Invalid identifier" });
         }
 
         const folderExist = await Folder.findOne({name: name});
 
         if(folderExist) {
-            return res.status(401).json({message: "Folder with this name already exists"});
+            return res.status(401).json({message: "Order with this identifier already exists"});
         }
         
         next();
