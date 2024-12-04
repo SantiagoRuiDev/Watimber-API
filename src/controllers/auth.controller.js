@@ -21,6 +21,8 @@ export const signin = async (req, res) => {
                 return res.status(401).json({message: "Invalid password"});
             }
 
+        } else {
+            throw new Error("Please insert a valid username");
         }
         
     } catch (error) {

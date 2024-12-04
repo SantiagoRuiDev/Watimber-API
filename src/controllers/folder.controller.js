@@ -43,10 +43,24 @@ export const searchFolder = async (req, res) => {
         const { name } = req.params;
 
         const findFolders = await Folder.find({});
+        const finallyFolders = [];
 
         const searchFolders = findFolders.filter(folder => folder.name.includes(name));
 
-        return res.status(200).json({folders: searchFolders});
+        for (const folder of searchFolders) {
+            const imagesCount = await Image.countDocuments({ folder: folder._id });
+
+            const objectFolder = {
+                _id: folder._id,
+                name: folder.name,
+                imagesCount: imagesCount
+            }
+
+            finallyFolders.push(objectFolder);
+        }
+
+
+        return res.status(200).json({folders: finallyFolders});
         
     } catch (error) {
         return res.status(500).json({ message: error.message });
