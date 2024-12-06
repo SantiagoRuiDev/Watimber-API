@@ -11,7 +11,7 @@ export const createFolder = async (req, res) => {
 
         await newFolder.save();
 
-        return res.status(201).json({message: "Order created successfully"});
+        return res.status(201).json({message: "Order created successfully", id: newFolder._id});
 
     } catch (error) {
         return res.status(500).json({ message: error.message });

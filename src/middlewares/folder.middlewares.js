@@ -9,10 +9,6 @@ export const createFolder = async (req, res, next) => {
             return res.status(400).json({message: "Please fill all data!"});
         }
 
-        if (!/^\d+$/.test(name) || name.length !== 6) {
-            return res.status(400).json({ message: "Invalid identifier" });
-        }
-
         const folderExist = await Folder.findOne({name: name});
 
         if(folderExist) {
