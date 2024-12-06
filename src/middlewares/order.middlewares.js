@@ -3,13 +3,18 @@ import validator from 'validator';
 
 export const createFolder = async (req, res, next) => {
     try {
-        const { name } = req.body;
+        const { id } = req.params;
 
-        if(validator.isEmpty(name)) {
+        // Create image
+        if(req.images_urls.length == 0){
+            throw new Error("Please upload valid images");
+        }
+
+        if(validator.isEmpty(id)) {
             return res.status(400).json({message: "Please fill all data!"});
         }
 
-        const folderExist = await Folder.findOne({name: name});
+        const folderExist = await Folder.findOne({name: id});
 
         if(folderExist) {
             return res.status(401).json({message: "Order with this identifier already exists"});

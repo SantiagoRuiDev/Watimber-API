@@ -20,14 +20,14 @@ await createDefaultAdmin();
 
 import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
-import folderRoutes from './routes/folder.routes.js';
+import orderRoutes from './routes/order.routes.js';
 import imageRoutes from './routes/images.routes.js';
 
 app.use('/files/images', express.static('files/images'));
 
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/folders', folderRoutes);
+app.use('/api/v1/order', orderRoutes);
 app.use('/api/v1/images', imageRoutes);
 
 
