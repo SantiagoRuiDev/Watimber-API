@@ -1,3 +1,4 @@
+import { deleteImage } from "../libs/imageDeletion.js";
 import Folder from "../services/folder.service.js";
 import Image from "../services/image.service.js";
 
@@ -79,6 +80,12 @@ export const deleteFolder = async (req, res) => {
   try {
     const { id } = req.params;
 
+    const images = await Image.find({folder: id});
+
+    for(const image of images){
+      await deleteImage(image.url);
+    }
+
     await Folder.findByIdAndDelete(id);
 
     return res.status(200).json({ message: "Order deleted successfully" });
@@ -98,6 +105,7 @@ export const getFolders = async (req, res) => {
       const objectFolder = {
         _id: folder._id,
         name: folder.name,
+        date: folder.date,
         imagesCount: imagesCount,
       };
 
