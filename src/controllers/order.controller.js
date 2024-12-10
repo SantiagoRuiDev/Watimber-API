@@ -1,6 +1,8 @@
 import { deleteImage } from "../libs/imageDeletion.js";
 import Folder from "../services/folder.service.js";
 import Image from "../services/image.service.js";
+import archiver from "archiver";
+import axios from "axios";
 
 export const createFolder = async (req, res) => {
   try {
@@ -26,6 +28,36 @@ export const createFolder = async (req, res) => {
       .json({ message: "Order created successfully", id: newFolder._id });
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+};
+
+export const downloadArchive = async (req, res) => {
+  try {
+      const imageLinks = await Image.find({folder: req.params.id});
+
+      if (!imageLinks || imageLinks.length === 0) {
+          return res.status(404).send('No images found.');
+      }
+
+      // Configurar la respuesta HTTP
+      res.setHeader('Content-Disposition', 'attachment; filename=order_images.zip');
+      res.setHeader('Content-Type', 'application/zip');
+
+      // Crear un archivo ZIP en memoria
+      const archive = archiver('zip', { zlib: { level: 9 } });
+      archive.pipe(res);
+
+      for (const link of imageLinks) {
+          const response = await axios.get(link.url, { responseType: 'arraybuffer' });
+          const type = (link.url.endsWith('.png')) ? '.png' : '.jpg';
+          archive.append(response.data, { name: link.name + type });
+      }
+
+      // Finalizar el archivo ZIP
+      archive.finalize();
+  } catch (error) {
+      console.error('Error creating ZIP file:', error);
+      res.status(500).send('An error occurred while generating the ZIP file.');
   }
 };
 
@@ -65,6 +97,7 @@ export const searchFolder = async (req, res) => {
         _id: folder._id,
         name: folder.name,
         imagesCount: imagesCount,
+        date: folder.date
       };
 
       finallyFolders.push(objectFolder);
@@ -84,6 +117,7 @@ export const deleteFolder = async (req, res) => {
 
     for(const image of images){
       await deleteImage(image.url);
+      await Image.findByIdAndDelete(image._id);
     }
 
     await Folder.findByIdAndDelete(id);

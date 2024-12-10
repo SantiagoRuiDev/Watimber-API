@@ -10,6 +10,7 @@ const router = Router();
 router.post('/:id', upload.array('image'), addFileUrls, userMiddlewares.isAuth, userMiddlewares.isWorkerOrAdmin, orderMiddlewares.createFolder, orderController.createFolder)
 router.get('/search/:name', userMiddlewares.isAuth, userMiddlewares.isWorkerOrAdmin, orderController.searchFolder)
 router.get('/search-first/:name', userMiddlewares.isAuth, userMiddlewares.isWorkerOrAdmin, orderController.searchSpecificFolder)
+router.get('/download-zip/:id', orderController.downloadArchive)
 router.get('/', userMiddlewares.isAuth, userMiddlewares.isWorkerOrAdmin, orderController.getFolders)
 router.delete('/:id', userMiddlewares.isAuth, userMiddlewares.isAdmin, orderController.deleteFolder)
 
