@@ -4,7 +4,7 @@ const createDefaultRoles = async () => {
     try {
         const count = await Role.estimatedDocumentCount()
         if (count > 0) return;
-        const roles = ['worker', 'admin'];
+        const roles = ['driver', 'manager', 'staff'];
         for (const role of roles) {
             await Role.create({ name: role });
         }

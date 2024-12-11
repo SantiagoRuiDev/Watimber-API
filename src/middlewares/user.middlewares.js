@@ -67,10 +67,10 @@ export const isAdmin = async (req, res, next) => {
     try {
         const userLoggedData = req.user;
 
-        if(userLoggedData.role.name === "admin") {
+        if(userLoggedData.role.name === "manager") {
             next();
         } else {
-            return res.status(401).json({message: "User is not admin"});
+            return res.status(401).json({message: "You are not allowed to perform this action"});
         }
     }
     catch {
@@ -82,10 +82,42 @@ export const isWorkerOrAdmin = async (req, res, next) => {
     try {
         const userLoggedData = req.user;
 
-        if(userLoggedData.role.name === "worker" || userLoggedData.role.name === "admin") {
+        if(userLoggedData.role.name === "driver" || userLoggedData.role.name === "manager" || userLoggedData.role.name === "staff") {
             next();
         } else {
-            return res.status(401).json({message: "User is not admin"});
+            return res.status(401).json({message: "You are not allowed to perform this action"});
+        }
+    }
+    catch {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+
+export const isDriver = async (req, res, next) => {
+    try {
+        const userLoggedData = req.user;
+
+        if(userLoggedData.role.name === "driver") {
+            next();
+        } else {
+            return res.status(401).json({message: "You are not allowed to perform this action"});
+        }
+    }
+    catch {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+
+export const isStaffOrManager = async (req, res, next) => {
+    try {
+        const userLoggedData = req.user;
+
+        if(userLoggedData.role.name === "manager" || userLoggedData.role.name === "staff") {
+            next();
+        } else {
+            return res.status(401).json({message: "You are not allowed to perform this action"});
         }
     }
     catch {

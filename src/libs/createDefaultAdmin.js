@@ -10,7 +10,7 @@ export const createDefaultAdmin = async () => {
             await new User({
                 username: config.USERNAME,
                 password: await User.encryptPassword(config.PASSWORD),
-                role: (await Role.findOne({name: "admin"}))._id
+                role: (await Role.findOne({name: "manager"}))._id
             }).save();
         }
         
