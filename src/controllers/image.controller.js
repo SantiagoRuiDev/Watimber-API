@@ -12,7 +12,7 @@ export const createImage = async (req, res) => {
 
         for(const image of req.images_urls){
             const newImage = new Image({
-                name: "watimber-image-" + (Math.random() * 999999),
+                name: "pod-image-" + (Math.random() * 999999),
                 url: image,
                 folder: id
             })

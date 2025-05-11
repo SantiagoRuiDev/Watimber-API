@@ -26,7 +26,7 @@ export const upload = multer({
         if (mimetype && extname) {
             return cb(null, true);
         } else {
-            cb(new Error('Error: Solo imágenes (jpeg, jpg, png, gif, webp) son permitidas!'));
+            cb(new Error('Error: only (jpeg, jpg, png, gif, webp) images are allowed!'));
         }
     }
 });

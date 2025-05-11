@@ -10,13 +10,14 @@ export const createFolder = async (req, res) => {
 
     const newFolder = new Folder({
       name: id,
+      organization: req.params.organization
     });
 
     await newFolder.save();
     
     for (const image of req.images_urls) {
       const newImage = new Image({
-        name: "watimber-image-" + Math.random() * 999999,
+        name: "pod-image-" + Math.random() * 999999,
         url: image,
         folder: newFolder._id,
       });
@@ -63,11 +64,11 @@ export const downloadArchive = async (req, res) => {
 
 export const searchSpecificFolder = async (req, res) => {
   try {
-    const { name } = req.params;
+    const { name, organization } = req.params;
 
     const findFolders = await Folder.find({});
 
-    const searchFolders = findFolders.filter((folder) => folder.name == name);
+    const searchFolders = findFolders.filter((folder) => folder.name == name && folder.organization.equals(organization));
 
     if (searchFolders[0]) {
       return res.status(200).json(searchFolders[0]);
@@ -81,13 +82,13 @@ export const searchSpecificFolder = async (req, res) => {
 
 export const searchFolder = async (req, res) => {
   try {
-    const { name } = req.params;
+    const { name, organization } = req.params;
 
     const findFolders = await Folder.find({});
     const finallyFolders = [];
 
     const searchFolders = findFolders.filter((folder) =>
-      folder.name.includes(name)
+      folder.name.includes(name) && folder.organization.equals(organization)
     );
 
     for (const folder of searchFolders) {
@@ -130,7 +131,8 @@ export const deleteFolder = async (req, res) => {
 
 export const getFolders = async (req, res) => {
   try {
-    const mapFolder = await Folder.find({});
+    const { organization } = req.params;
+    const mapFolder = await Folder.find({organization: organization});
     const finallyFolders = [];
 
     for (const folder of mapFolder) {

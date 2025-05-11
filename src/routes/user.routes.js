@@ -5,10 +5,7 @@ import * as userMiddlewares from "../middlewares/user.middlewares.js";
 const router = Router();
 
 
-router.post('/', userMiddlewares.isAuth, userMiddlewares.isAdmin, userMiddlewares.createUser, userController.createUser)
-
-router.delete('/:id', userMiddlewares.isAuth, userMiddlewares.isAdmin, userController.deleteUser)
-
+router.post('/', userMiddlewares.createUser, userController.createUser)
 router.get('/', userMiddlewares.isAuth, userController.getUsers);
 
 export default router;

@@ -1,18 +1,16 @@
 import User from '../services/user.service.js';
-import config from '../libs/config.js';
-import jwt from 'jsonwebtoken';
 
 export const createUser = async (req, res) => {
     try {
-        const { name, password } = req.body;
+        const { name, email, password } = req.body;
 
         const createUser = new User({
             username: name,
             password: await User.encryptPassword(password),
-            role: req.role
+            email: email
         });
 
-        await User.create(createUser);
+        await createUser.save();
 
         return res.status(200).json({message: "User has been created successfully"});
 

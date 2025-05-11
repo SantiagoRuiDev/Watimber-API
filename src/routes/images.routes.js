@@ -9,7 +9,6 @@ const router = Router();
 router.post(
   "/:id",
   userMiddlewares.isAuth,
-  userMiddlewares.isDriver,
   upload.array("image"),
   addFileUrls,
   imageMiddlewares.createImage,
@@ -18,19 +17,16 @@ router.post(
 router.get(
   "/find/:id",
   userMiddlewares.isAuth,
-  userMiddlewares.isStaffOrManager,
   imageController.getImageById
 );
 router.get(
   "/:id",
   userMiddlewares.isAuth,
-  userMiddlewares.isStaffOrManager,
   imageController.getImage
 );
 router.delete(
   "/:id",
   userMiddlewares.isAuth,
-  userMiddlewares.isStaffOrManager,
   imageController.deleteImage
 );
 

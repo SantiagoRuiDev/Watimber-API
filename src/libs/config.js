@@ -7,5 +7,6 @@ export default {
     PORT: process.env.PORT || process.env.DEVELOPMENT_PORT,
     SECRET: process.env.SECRET || "",
     USERNAME: process.env.USERBASE_NAME || "",
+    EMAIL: process.env.USERBASE_EMAIL || "",
     PASSWORD: process.env.USERBASE_PASSWORD || ""
 }

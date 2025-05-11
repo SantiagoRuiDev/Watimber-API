@@ -5,9 +5,9 @@ import config from '../libs/config.js';
 
 export const signin = async (req, res) => {
     try {
-        const { name, password } = req.body;
+        const { email, password } = req.body;
 
-        const userExist = await User.findOne({username: name}).populate("role");
+        const userExist = await User.findOne({email: email});
 
         if(userExist) {
         
@@ -16,7 +16,7 @@ export const signin = async (req, res) => {
                 const token = jwt.sign({id: userExist._id}, config.SECRET, {
                     expiresIn: /* Never expires */ 2592000
                 });
-                return res.status(200).json({token, role: userExist.role.name});
+                return res.status(200).json({token});
             } else {
                 return res.status(401).json({message: "Invalid password"});
             }
