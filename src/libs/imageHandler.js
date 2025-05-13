@@ -1,4 +1,5 @@
 import multer from 'multer';
+import config from './config.js';
 import path from 'path';
 
 // Configuración de Multer para almacenar las imágenes
@@ -35,7 +36,8 @@ export const upload = multer({
 export const addFileUrls = (req, res, next) => {
   if (req.files) {
       req.images_urls = req.files.map(file => {
-          return `${req.protocol}://${req.get('host')}/files/images/${file.filename}`;
+          const protocol = config.PRODUCTION ? 'https' : 'http'
+          return `${protocol}://${req.get('host')}/files/images/${file.filename}`;
       });
   }
   next();

@@ -8,5 +8,6 @@ export default {
     SECRET: process.env.SECRET || "",
     USERNAME: process.env.USERBASE_NAME || "",
     EMAIL: process.env.USERBASE_EMAIL || "",
-    PASSWORD: process.env.USERBASE_PASSWORD || ""
+    PASSWORD: process.env.USERBASE_PASSWORD || "",
+    PRODUCTION: process.env.PRODUCTION == "true" ? true : false
 }
